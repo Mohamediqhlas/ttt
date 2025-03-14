@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #355c82;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .game-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .choices {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .choice {
+      padding: 10px;
+      border-radius: 50%;
+      background-color: #e0e7ff;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      font-size: 40px;
+    }
+
+    .choice:hover {
+      background-color: #c7d2fe;
+      transform: scale(1.2);
+    }
+
+    .result {
+      font-size: 20px;
+      margin-bottom: 20px;
+      min-height: 24px;
+    }
+
+    .scoreboard {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+      gap: 20px;
+    }
+
+    .scoreboard div {
+      padding: 5px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 20px;
+    }
+
+    #user-choice, #computer-choice {
+      font-size: 40px;
+    }
+
+    .reset-button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #6366f1;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .reset-button:hover {
+      background-color: #4f46e5;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 18px;
+      }
+
+      .choice {
+        font-size: 25px;
+      }
+
+      .result {
+        font-size: 18px;
+      }
+
+      .scoreboard div {
+        font-size: 18px;
+      }
+
+      #user-choice, #computer-choice {
+        font-size: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>Rock Paper Scissors</h1>
+    <p>-Mohamed Iqhlas</p>
+    <div class="choices">
+      <div class="choice" onclick="playGame('rock')">✊</div>
+      <div class="choice" onclick="playGame('paper')">✋</div>
+      <div class="choice" onclick="playGame('scissors')">✌</div>
+    </div>
+    <div class="result" id="result">-</div>
+    <div class="scoreboard">
+      <div id="user-choice">You: </div>
+      <div id="computer-choice">Computer: </div>
+    </div>
+    <div class="scoreboard">
+      <div>Wins: <span id="wins">0</span></div>
+      <div>Losses: <span id="losses">0</span></div>
+      <div>Ties: <span id="ties">0</span></div>
+    </div>
+    <button class="reset-button" onclick="resetGame()">Reset</button>
+  </div>
+
+  <script>
+    let wins = 0;
+    let losses = 0;
+    let ties = 0;
+
+    function playGame(userChoice) {
+      const choices = ['rock', 'paper', 'scissors'];
+      const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+      document.getElementById('user-choice').innerText = 'You: ' + getEmoji(userChoice);
+      document.getElementById('computer-choice').innerText = 'Computer: ' + getEmoji(computerChoice);
+
+      if (userChoice === computerChoice) {
+        ties++;
+        document.getElementById('result').innerText = "It's a Tie!";
+      } else if (
+        (userChoice === 'rock' && computerChoice === 'scissors') ||
+        (userChoice === 'paper' && computerChoice === 'rock') ||
+        (userChoice === 'scissors' && computerChoice === 'paper')
+      ) {
+        wins++;
+        document.getElementById('result').innerText = "You Win!";
+      } else {
+        losses++;
+        document.getElementById('result').innerText = "You Lose!";
+      }
+
+      updateScore();
+    }
+
+    function getEmoji(choice) {
+      switch (choice) {
+        case 'rock': return '✊';
+        case 'paper': return '✋';
+        case 'scissors': return '✌';
+      }
+    }
+
+    function updateScore() {
+      document.getElementById('wins').innerText = wins;
+      document.getElementById('losses').innerText = losses;
+      document.getElementById('ties').innerText = ties;
+    }
+
+    function resetGame() {
+      wins = 0;
+      losses = 0;
+      ties = 0;
+      updateScore();
+      document.getElementById('result').innerText = '-';
+      document.getElementById('user-choice').innerText = 'You: ';
+      document.getElementById('computer-choice').innerText = 'Computer: ';
+    }
+  </script>
+</body>
+</html>
